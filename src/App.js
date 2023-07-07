@@ -1,6 +1,6 @@
 import './App.css';
 
-import Router from "./routes/Router";
+import { Router } from "./routes/Router";
 
 import Root from "./pages/Root";
 import About from "./pages/About";

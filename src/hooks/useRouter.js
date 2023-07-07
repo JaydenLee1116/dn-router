@@ -1,6 +1,6 @@
 const useRouter = () => {
   const push = (path) => {
-    window.location.pathname = path;
+    window.history.pushState({}, null, path);
   }
   return { push }
 }

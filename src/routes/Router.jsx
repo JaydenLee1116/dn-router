@@ -1,19 +1,23 @@
-import React, {createContext, useContext} from 'react';
+import React, {createContext, useState} from 'react';
 
 const RoutesContext = createContext(null);
 
 const Router = ({ children }) => {
+  const [currentPath, setCurrentPath] = useState(window.location.pathname);
+  const handleCurrentPathClick = (path) => {
+    setCurrentPath(path);
+  }
+
   return (
-    <RoutesContext.Provider value={window.location.pathname}>
-      { children }
+    <RoutesContext.Provider value={handleCurrentPathClick}>
+      { React.Children.toArray(children).filter((node) => node.props.path === currentPath)}
     </RoutesContext.Provider>
   );
 };
 
-
 const Route = ({ path, component }) => {
-  const route = useContext(RoutesContext);
-  return path === route && (
+
+  return (
     <>
       { component }
     </>
@@ -22,4 +26,4 @@ const Route = ({ path, component }) => {
 
 Router.Route = Route;
 
-export default Router;
+export { Router, RoutesContext };

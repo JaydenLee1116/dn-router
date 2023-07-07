@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 
+import {RoutesContext} from "../routes/Router";
 import useRouter from "../hooks/useRouter";
 
 const About = () => {
+  const handleCurrentPathClick = useContext(RoutesContext);
   const { push } = useRouter();
   const handleRootClick = () => {
-    push('/')
+    push('/');
+    handleCurrentPathClick('/');
   }
   return (
     <>
