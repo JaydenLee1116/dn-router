@@ -1,21 +1,26 @@
 import React, {createContext, useState} from 'react';
 
-const RoutesContext = createContext(null);
+import useRouter from "../hooks/useRouter";
+const RouterContext = createContext(null);
 
 const Router = ({ children }) => {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
   const handleCurrentPathClick = (path) => {
     setCurrentPath(path);
-  }
+  };
+
+  window.onpopstate = () => handleCurrentPathClick(window.location.pathname);
 
   return (
-    <RoutesContext.Provider value={handleCurrentPathClick}>
-      { React.Children.toArray(children).filter((node) => node.props.path === currentPath)}
-    </RoutesContext.Provider>
+    <RouterContext.Provider value={handleCurrentPathClick}>
+      { React.Children.toArray(children).filter((child) => child.props.path === currentPath)}
+    </RouterContext.Provider>
   );
 };
 
 const Route = ({ path, component }) => {
+  const { push } = useRouter();
+  push(path);
 
   return (
     <>
@@ -26,4 +31,4 @@ const Route = ({ path, component }) => {
 
 Router.Route = Route;
 
-export { Router, RoutesContext };
+export { Router, RouterContext };
